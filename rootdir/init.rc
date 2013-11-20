@@ -702,3 +702,13 @@ on property:ro.debuggable=1
 service flash_recovery /system/bin/install-recovery.sh
     class main
     oneshot
+
+# This trigger is run by our modified init after boot has finished
+on ready
+    class_start mer
+
+# Notify Mer's systemd that we're done
+# This is started at the end of boot after both core and main classes
+service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
+    class mer
+    oneshot
